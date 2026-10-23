@@ -9,6 +9,243 @@ A clean, production-grade URL Shortener and Click Analytics platform built with 
 **LinkForge** solves the problem of sharing, shortening, and managing unwieldy URLs while providing real-time, persistent click analytics. Unlike basic script-level URL shorteners, LinkForge is engineered with a modular, decoupled architecture where validation, code generation, persistence, business logic orchestration, and HTTP presentation are isolated into dedicated, testable components.
 
 ---
+# 🔗 LinkForge
+### Smart URL Shortener & Click Analytics
+
+**A modular Python web application built with Flask and SQLite, designed around Low-Level Design (LLD), SOLID principles, and object-oriented design patterns.**
+
+LinkForge transforms long URLs into short, shareable links and provides a dashboard for managing links and tracking clicks. It combines practical web development with maintainable software architecture.
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/Flask-Web%20Framework-000000?style=for-the-badge&logo=flask&logoColor=white" alt="Flask">
+  <img src="https://img.shields.io/badge/SQLite-Database-003B57?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite">
+  <img src="https://img.shields.io/badge/LLD-Design%20Patterns-7C3AED?style=for-the-badge" alt="Low-Level Design">
+</p>
+
+---
+
+## 📑 Table of Contents
+
+- [Overview](#-overview)
+- [Features](#-features)
+- [Technology Stack](#-technology-stack)
+- [Architecture](#-architecture)
+- [Design Principles and Patterns](#-design-principles-and-patterns)
+- [Getting Started](#-getting-started)
+- [Running Tests](#-running-tests)
+- [Project Structure](#-project-structure)
+- [Future Enhancements](#-future-enhancements)
+- [Author](#-author)
+
+## 🎯 Overview
+
+Sharing long URLs can be inconvenient, and understanding how often links are accessed can be difficult without analytics.
+
+LinkForge addresses these challenges with a URL-shortening application that combines link creation, alias management, expiration handling, persistent storage, and click tracking.
+
+The project also explores how **clean code, separation of concerns, dependency injection, and design patterns** can make a Python application easier to maintain, test, and extend.
+
+## ✨ Features
+
+| Feature | Description |
+|---|---|
+| 🔗 URL Shortening | Generate compact, shareable URLs from longer links. |
+| 🛡️ URL Validation | Validate submitted URLs before processing them. |
+| ✏️ Custom Aliases | Create personalized short links subject to validation rules. |
+| ⏳ Link Expiration | Support expiration dates and expired-link handling. |
+| 📊 Click Analytics | Record link clicks and display usage statistics. |
+| 💾 Persistent Storage | Store link data using SQLite. |
+| 🔒 Alias Protection | Handle duplicate aliases and conflicting requests. |
+| 🎨 Web Dashboard | Manage links through a clean, modern interface. |
+| 🧪 Automated Testing | Use pytest to verify application behavior and edge cases. |
+
+*Feature availability and behavior depend on the current implementation.*
+
+## 🛠️ Technology Stack
+
+| Layer | Technologies |
+|---|---|
+| Programming Language | Python |
+| Backend Framework | Flask |
+| Database | SQLite |
+| Frontend | HTML5, CSS3, JavaScript |
+| Testing | pytest |
+| Version Control | Git, GitHub |
+
+## 🏗️ Architecture
+
+LinkForge uses a modular structure to separate web handling, business logic, and data persistence.
+
+```text
+                 ┌────────────────────────┐
+                 │     Web Dashboard      │
+                 │     HTML / CSS / JS    │
+                 └───────────┬────────────┘
+                             │
+                 ┌───────────▼────────────┐
+                 │      Flask Routes      │
+                 │   HTTP / Redirects     │
+                 └───────────┬────────────┘
+                             │
+                 ┌───────────▼────────────┐
+                 │    Service Layer       │
+                 │ Validation / URL Logic │
+                 └───────────┬────────────┘
+                             │
+                 ┌───────────▼────────────┐
+                 │   Repository Layer     │
+                 │     Data Access        │
+                 └───────────┬────────────┘
+                             │
+                 ┌───────────▼────────────┐
+                 │      SQLite DB         │
+                 │ Persistent Link Data   │
+                 └────────────────────────┘
+```
+
+*Conceptual overview; confirm the diagram against the actual module dependencies before treating it as the exact runtime architecture.*
+
+## 🧩 Design Principles and Patterns
+
+The project is intended to demonstrate the following software design concepts:
+
+- **SOLID Principles:** Improve responsibility boundaries, extensibility, substitutability, and dependency management.
+- **Repository Pattern:** Separate persistence operations from business logic.
+- **Dependency Injection:** Make dependencies replaceable and easier to test.
+- **Factory Pattern:** Encapsulate the creation of objects or strategies where needed.
+- **Singleton Pattern:** Provide a shared instance where appropriate.
+- **Separation of Concerns:** Keep web presentation, business rules, and persistence responsibilities distinct.
+
+These concepts help demonstrate practical Python Low-Level Design (LLD) skills.
+
+## 🚀 Getting Started
+
+Follow these steps to run LinkForge locally.
+
+### Prerequisites
+
+- Python 3.10 or later
+- Git
+- pip
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/pragnyasree21-iij/LinkForge.git
+cd LinkForge
+```
+
+### 2. Create a virtual environment
+
+**Windows — PowerShell**
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
+
+**Windows — Command Prompt**
+
+```bat
+python -m venv .venv
+.venv\Scripts\activate.bat
+```
+
+### 3. Install dependencies
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+### 4. Start the application
+
+```bash
+python run.py
+```
+
+Open the local URL printed in your terminal. For a typical Flask development server, this may be:
+
+`http://127.0.0.1:5000/`
+
+### 5. Explore the application
+
+Create a short link, try the available alias and expiration options, and use the dashboard to explore link management and click statistics.
+
+## 🧪 Running Tests
+
+Execute the test suite from the project root:
+
+```bash
+python -m pytest
+```
+
+Tests may cover areas such as:
+
+- URL validation and invalid input
+- Short-code generation
+- Custom alias constraints
+- Expiration behavior
+- Repository and persistence operations
+- Duplicate alias handling
+- Redirects and click tracking
+
+Run the tests locally to confirm the current state of the application.
+
+## 📂 Project Structure
+
+```text
+LinkForge/
+├── app/                       # Application modules
+├── src/                       # Core logic and supporting modules
+├── tests/                     # Automated tests
+├── templates/                 # HTML templates
+├── static/                    # CSS, JavaScript, and assets
+├── main.py                    # Main demonstration or entry module
+├── run.py                     # Application launcher
+├── requirements.txt           # Python dependencies
+├── INTERVIEW_PREPARATION.md   # Interview preparation notes
+├── README.md                  # Project documentation
+└── .gitignore                 # Files excluded from Git
+```
+
+## 🔮 Future Enhancements
+
+Potential improvements for future versions include:
+
+- QR code generation
+- More detailed analytics and charts
+- User authentication and personal link management
+- Rate limiting and abuse prevention
+- Docker-based deployment
+- Cloud hosting and production monitoring
+
+## 💡 What This Project Demonstrates
+
+- Python backend development with Flask
+- Relational data persistence using SQLite
+- Modular application design
+- Object-oriented programming and LLD concepts
+- SOLID principles and design patterns
+- Automated testing and edge-case handling
+- Version control and project documentation with GitHub
+
+## 👩‍💻 Author
+
+**Edupuganti Pragnya Sree**
+
+- GitHub: [@pragnyasree21-iij](https://github.com/pragnyasree21-iij)
+- Project: [LinkForge Repository](https://github.com/pragnyasree21-iij/LinkForge)
+
+## 📄 License
+
+No license has been specified for this repository yet. Add a license file if you decide to define permissions for reuse and redistribution.
+
+---
+
+<p align="center">
+  Built with Python, Flask, SQLite, and a focus on clean software design.
+</p>
 
 ## 2. Key Features
 
