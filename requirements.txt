@@ -1,0 +1,3 @@
+# LinkForge - Smart URL Shortener Dependencies
+flask>=3.0.0
+pytest>=8.0.0

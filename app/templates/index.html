@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="LinkForge — High-Performance URL Shortener & Click Analytics Dashboard">
+    <title>LinkForge — Smart URL Shortener Dashboard</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Mobile Sidebar Backdrop Overlay -->
+    <div id="sidebarOverlay" class="sidebar-overlay" aria-hidden="true"></div>
+
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="brand-logo" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-name">LinkForge</span>
+                    <span class="brand-tag">Smart URL Management</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav" aria-label="Main Navigation">
+                <a href="#dashboard" class="nav-item active" id="navDashboard">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#links" class="nav-item" id="navLinks">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                    <span>My Links</span>
+                </a>
+                <a href="#analytics" class="nav-item" id="navAnalytics">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                    <span>Analytics</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="pulse-indicator">
+                    <span class="pulse-dot"></span>
+                    <span class="pulse-text">Engine Online</span>
+                </div>
+                <p class="footer-caption">v1.0 • SQLite Persistent</p>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-container">
+            <!-- Top Header -->
+            <header class="top-header">
+                <div class="header-content-left">
+                    <button type="button" id="mobileMenuBtn" class="mobile-menu-btn" aria-label="Toggle navigation menu">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    </button>
+                    <div>
+                        <h1 class="header-title">URL Dashboard</h1>
+                        <p class="header-subtitle">Create, manage, and track your shortened links.</p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button id="refreshBtn" class="btn btn-secondary" title="Refresh links and statistics">
+                        <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                        <span>Refresh Data</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Statistics Grid (Analytics Section) -->
+            <section class="stats-grid" id="analytics" aria-label="Click Analytics Overview">
+                <div class="stat-card">
+                    <div class="stat-icon stat-icon-indigo" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">Total Links</span>
+                        <span class="stat-value" id="statTotalLinks">0</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon stat-icon-purple" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">Total Clicks</span>
+                        <span class="stat-value" id="statTotalClicks">0</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon stat-icon-emerald" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">Active Links</span>
+                        <span class="stat-value" id="statActiveLinks">0</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon stat-icon-amber" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">Expired Links</span>
+                        <span class="stat-value" id="statExpiredLinks">0</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- URL Creation Form Card -->
+            <section class="card creation-card" id="dashboard">
+                <div class="card-header">
+                    <div class="card-header-icon" aria-hidden="true">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    </div>
+                    <div>
+                        <h2 class="card-title">Shorten a New URL</h2>
+                        <p class="card-subtitle">Generate a compact, trackable short link with custom slug & expiration options.</p>
+                    </div>
+                </div>
+
+                <form id="shortenForm" class="shorten-form" novalidate>
+                    <div class="form-group">
+                        <label for="urlInput" class="form-label">Destination URL <span class="required" aria-hidden="true">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="url" id="urlInput" class="form-input" placeholder="https://example.com/your/long/url" required autocomplete="off">
+                            <button type="button" id="pasteBtn" class="btn-paste" title="Paste from clipboard">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                                <span>Paste</span>
+                            </button>
+                        </div>
+                        <span class="field-error" id="urlInputError"></span>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label for="aliasInput" class="form-label">Custom Alias <span class="optional">(Optional)</span></label>
+                            <div class="input-prefix-wrapper">
+                                <span class="input-prefix" id="baseUrlPrefix">link.forge/</span>
+                                <input type="text" id="aliasInput" class="form-input with-prefix" placeholder="my-custom-slug" maxlength="30" autocomplete="off">
+                            </div>
+                            <span class="form-hint">3–30 characters (letters, numbers, hyphens, underscores)</span>
+                            <span class="field-error" id="aliasInputError"></span>
+                        </div>
+
+                        <div class="form-group flex-1">
+                            <label for="expiresInput" class="form-label">Link Expiration <span class="optional">(Optional)</span></label>
+                            <input type="datetime-local" id="expiresInput" class="form-input">
+                            <span class="form-hint">Leave blank for permanent link</span>
+                            <span class="field-error" id="expiresInputError"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" id="submitBtn" class="btn btn-primary">
+                            <span class="btn-text">Shorten URL</span>
+                            <svg class="btn-spinner" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle><path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"></path></svg>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Creation Result Banner (Soft Light Success Panel) -->
+                <div id="resultBanner" class="result-banner hidden" role="region" aria-label="Link Creation Result">
+                    <div class="result-header">
+                        <div class="result-badge">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>Link Created Successfully</span>
+                        </div>
+                        <button type="button" id="closeResultBtn" class="btn-close-banner" aria-label="Dismiss result">&times;</button>
+                    </div>
+                    <div class="result-body">
+                        <div class="result-main">
+                            <div class="result-url-display">
+                                <span class="result-short-url" id="resultShortUrl"></span>
+                            </div>
+                            <div class="result-actions">
+                                <button type="button" id="copyResultBtn" class="btn btn-copy" title="Copy to clipboard">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                    <span class="copy-text">Copy Link</span>
+                                </button>
+                                <a id="openResultLink" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-open" title="Open redirect in new tab">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                    <span>Test Redirect</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="result-meta">
+                            <span class="meta-item">Destination: <code id="resultOriginalUrl"></code></span>
+                            <span class="meta-item">Short Code: <code id="resultShortCode"></code></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- My Links Table Section -->
+            <section class="card table-card" id="links">
+                <div class="table-header-bar">
+                    <div>
+                        <h2 class="card-title">My Links</h2>
+                        <p class="card-subtitle">Active and expired URL records stored in SQLite database.</p>
+                    </div>
+                    <div class="table-search-box">
+                        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        <input type="text" id="searchInput" class="search-input" placeholder="Search by slug or URL..." autocomplete="off" aria-label="Search links">
+                    </div>
+                </div>
+
+                <!-- Table Container -->
+                <div class="table-responsive">
+                    <table class="links-table">
+                        <thead>
+                            <tr>
+                                <th>Short Link</th>
+                                <th>Original Destination</th>
+                                <th>Created</th>
+                                <th>Expires</th>
+                                <th>Clicks</th>
+                                <th>Status</th>
+                                <th class="text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="linksTableBody">
+                            <!-- Populated dynamically via dashboard.js -->
+                        </tbody>
+                    </table>
+
+                    <!-- Loading State -->
+                    <div id="tableLoading" class="table-state-box">
+                        <div class="spinner"></div>
+                        <p>Loading records from SQLite database...</p>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div id="tableEmpty" class="table-state-box hidden">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                        <p class="empty-title">No Links Created Yet</p>
+                        <p class="empty-desc">Shorten your first destination URL using the form above.</p>
+                    </div>
+
+                    <!-- Error State -->
+                    <div id="tableError" class="table-state-box hidden">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#DC5265" stroke-width="1.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                        <p class="empty-title">Failed to Load Links</p>
+                        <p class="empty-desc" id="tableErrorMessage">Could not connect to the LinkForge API.</p>
+                        <button type="button" id="tableRetryBtn" class="btn btn-secondary mt-3">Retry</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
